@@ -6,6 +6,7 @@ class GetImageHistogramController {
     console.log(image);
     const getImageHistogram = new GetImageHistogram();
     const imageHistogram = await getImageHistogram.execute(image.path);
+    console.log({ imageHistogram });
     return response.status(201).json({ imageHistogram });
   }
 }
