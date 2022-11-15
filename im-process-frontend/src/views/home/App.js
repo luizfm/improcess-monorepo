@@ -3,7 +3,6 @@ import { Line as LineJS } from "chart.js/auto";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { chartDataFormatter } from "../../utils/formatters";
-import { API_URL } from "../../utils/constants";
 
 import "./App.css";
 
@@ -35,12 +34,17 @@ function App() {
 
     const data = new FormData();
     data.append("files", selectedImage);
-    fetch(API_URL, {
+    fetch("http://192.168.0.31:3333/image", {
       method: "POST",
       body: data,
-    }).then((response) => {
-      response.json().then((data) => setImageData(data.imageHistogram));
-    });
+    })
+      .then((response) => {
+        console.log("passou", response);
+        response.json().then((data) => setImageData(data.imageHistogram));
+      })
+      .catch((err) => {
+        console.log({ err }, "aqui", err.message);
+      });
   }, []);
 
   useEffect(() => {
