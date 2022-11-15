@@ -20,6 +20,7 @@ const options = {
 function App() {
   const [imageData, setImageData] = useState([]);
   const [formattedChartData, setFormattedChartData] = useState();
+  const [previewImage, setPreviewImage] = useState();
   const inputRef = useRef(null);
 
   const onUploadImageClick = useCallback(() => {
@@ -31,6 +32,8 @@ function App() {
     if (!selectedImage) {
       return;
     }
+
+    setPreviewImage(URL.createObjectURL(selectedImage));
 
     const data = new FormData();
     data.append("files", selectedImage);
@@ -54,8 +57,17 @@ function App() {
   return (
     <div className="App">
       <main className="main-content">
-        <p>APS Image processing - Lucas Dias, Luiz F. de Morais</p>
+        <h1 className="title">
+          APS Image processing - Lucas Dias, Luiz F. de Morais
+        </h1>
         <div className="chart-container">
+          {previewImage && (
+            <img
+              src={previewImage}
+              alt="Selected user file"
+              className="image"
+            />
+          )}
           {imageData.length > 0 && (
             <Line
               data={formattedChartData}
